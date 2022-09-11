@@ -1,0 +1,307 @@
+\chapter{Electrical basics}
+\label{ch:electrical-basics}
+
+
+\section{Physical quantities}
+
+\autoref{tab:key-electrical-quantities} summarises key electrical quantities.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{l l l l}
+    \toprule
+    \textbf{Quantity} & \textbf{Symbol} & \textbf{Unit} & ~ \\
+    \midrule
+    Voltage & $V$ & Volt & \si{\volt} \\
+    Current & $I$ & Ampere & \si{\ampere} \\
+    Resistance & $R$ & Ohm & \si{\ohm} \\
+    Power & $P$ & Watt & \si{\watt} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Key electrical quanities}
+  \label{tab:key-electrical-quantities}
+\end{table}
+
+Note that voltage is a difference between \textit{two} points.
+Often measured in any system with respect to a common earth / ground.
+
+\section{Laws}
+
+There are two key laws that relate basic electrical quantities, Ohm's Law and the Power Relation.
+
+\subsection{Ohm's law}
+\label{sec:ohms-law}
+  
+Voltage, current and resistance are related by Ohm's law, which can be written in terms of $V$, $I$ or $R$.
+Re-arrange to calculate required quantity.
+\begin{align}
+  V & = R \cdot I \\
+  \Rightarrow I & = \frac{V}{R} \\
+  \Rightarrow R & = \frac{V}{I}      
+\end{align}
+
+\begin{example}{Ohm's law}{ohms-law-v}
+  A \SI{7}{\ohm} resistance carries a current of \SI{2}{\ampere}.
+  Determine the voltage across the component.
+  \tcblower
+  \begin{align}
+    V & = 7 \times 2 \\
+      & = \SI{14}{\volt}
+  \end{align}
+\end{example}
+
+\begin{example}{Ohm's law with rearrangement}{ohms-law-r}
+  When an electrical component is connected across a battery nominally supplying \SI{12}{\volt} a current of \SI{3}{\ampere} flows.
+  Calculate the resistance of the component.
+  \tcblower
+  \begin{align}
+    V & = R \cdot I \\
+    \Rightarrow R & = \frac{V}{I} \\
+      & = \frac{12}{3} \\
+      & = \SI{4}{\ohm}
+  \end{align}
+\end{example}
+
+\subsection{Power relation}
+\label{sec:power-relation}
+
+Power quantifies how much energy is converted from one form to another per unit time. Measured in Joule per second \si{\joule\per\second}, more commonly the Watt \si{\watt}.
+Just as with Ohm's law, the power relation, \autoref{eq:power-P}, can be rearranged to give $V$ or $I$:
+\begin{align}
+  P & = V \cdot I \label{eq:power-P} \\
+  \Rightarrow V & = \frac{P}{I} \label{eq:power-V} \\
+  \Rightarrow I & = \frac{P}{V} \label{eq:power-I} 
+\end{align}
+
+\begin{example}{Power calculation}{power-V}
+  A graphics card is supplied from the \SI{12}{\volt} power supply in a computer. The current flowing is measured at \SI{5}{\ampere}. Determine the power consumed by the graphics card.
+  \tcblower
+  \begin{align}
+    P & = 12 \times 5 \\
+      & = \SI{60}{\watt} 
+  \end{align}
+\end{example}
+
+\begin{example}{Power calculation with rearrangement}{power-I}
+  A computer power supply delivers \SI{6}{\watt} to a hard disk drive on the \SI{12}{\volt} line.
+  Determine the current flowing in the cable.
+  \tcblower
+  \begin{align}
+     I & = \frac{P}{V} = \frac{6}{12} \\
+      & = \SI{0.5}{\ampere}
+  \end{align}
+\end{example}
+
+\subsection{Combining}
+\label{sec:combining}
+
+Ohm's law and the power relation can be combined by substituting one quantity for another.
+
+\section{Alternating current (AC)}
+\label{sec:alternating-current}
+
+Mains electricity is supplied in most parts of the world as alternating current (AC).
+In Ireland and most of the EU, mains electricity is supplied at a \textit{nominal} voltage of \SI{230}{\volt} and frequency \SI{50}{\hertz}.
+This means that the instantaneous voltage $v(t)$ varies sinusoidally with respect to time.
+\begin{align}
+  v(t) & = V_{\mbox{max}} \sin ( 2 \pi f t ) \label{eq:ac-instantaneous-voltage}
+\end{align}
+A single cycle of a generic AC waveform is shown in \autoref{fig:ac-waveform-properties}
+
+\autoimage{ac_waveform_properties}{AC waveform properties}{ac-waveform-properties}
+
+\subsection{Amplitude}
+\label{sec:amplitude}
+
+The \textbf{maximum voltage} $V_{\mbox{max}}$ of a sinusoid is the amplitude of the sine wave in both directions.
+The most positive value is $V_{\mbox{max}}$ whilst the most negative value is $-V_{\mbox{max}}$.
+
+\subsection{Peak-to-peak voltage}
+\label{sec:peak-to-peak-voltage}
+
+We can thus define the \textbf{peak-to-peak} amplitude as the difference between these two values:
+\begin{align}
+  V_{\mbox{PK-PK}} & = V_{\mbox{max}} - ( - V_{\mbox{max}} ) \\
+                   & = 2 V_{\mbox{max}}                    
+\end{align}
+
+\begin{example}{Peak-to-peak to amplitude}{pkpk-amplitude}
+  Calculate the amplitude of an AC waveform with a \SI{650}{\volt} peak-to-peak amplitude.
+  \tcblower
+  \begin{align}
+    V_{\mbox{max}} & = \frac{V_{\mbox{PK-PK}}}{2} \\
+                   & = \frac{650}{2} \\
+                   & = \SI{325}{\volt} 
+  \end{align}
+\end{example}
+
+\subsection{RMS Voltage}
+\label{sec:rms-voltage}
+
+The voltage in western Europe is a nominal \SI{230}{\volt}~RMS.
+This is a root mean square value, which is equivalent to the heating power that the same DC voltage would deliver.
+\begin{align}
+  V_{\mbox{max}} & = \sqrt{2} V_{\mbox{RMS}} \\
+  \Rightarrow V_{\mbox{RMS}} & = \frac{V_{\mbox{max}}}{\sqrt{2}}
+\end{align}
+
+\begin{example}{RMS to peak voltage}{rms-to-peak-voltage}
+  Calculate the amplitude of a \SI{230}{\volt} RMS AC supply.
+  \tcblower
+  \begin{align}
+    V_{\mbox{max}} & = \sqrt{2} V_{\mbox{RMS}} \\
+                   & = \sqrt{2} \times 230 \\
+                   & = \SI{325}{\volt}                    
+  \end{align}
+\end{example}
+
+\begin{example}{Peak to RMS voltage}{peak-to-rms-voltage}
+  Calculate the RMS voltage of an AC supply with an amplitude of \SI{100}{\volt}.
+  \tcblower
+  \begin{align}
+    V_{\mbox{RMS}} & = \frac{V_{\mbox{max}}}{\sqrt{2}} \\
+                   & = \frac{100}{\sqrt{2}} \\
+                   & = \SI{70.7}{\volt} 
+  \end{align}
+\end{example}
+
+\subsection{Frequency / Period}
+A single cycle lasts for a period of time, $T$.
+The period is directly related to the frequency:
+\begin{align}
+  T & = \frac{1}{f} \\
+      \Rightarrow f & = \frac{1}{T}
+\end{align}
+\begin{example}{Frequency to period}{frequency-to-period}
+  Calculate the period of a signal that repeats at \SI{20}{\hertz}.
+  \tcblower
+  \begin{align}
+    T & = \frac{1}{20} \\
+      & = \SI{0.05}{\second} 
+  \end{align}
+\end{example}
+\begin{example}{Period to frequency}{period-to-frequency}
+  Determine the frequency of a signal with a period of \SI{40}{\milli\second}.
+  \tcblower
+  \begin{align}
+    f & = \frac{1}{\num{40e-3}} \\
+      & = \SI{25}{\hertz}
+  \end{align}
+\end{example}
+
+
+\section{Mains electricity}
+
+Mains wiring in Ireland generally involves three conductors:
+\begin{description}
+\item[Live] carries a \SI{230}{\volt} RMS AC voltage.
+\item[Neutral] provides the return path for current on the live conductor, and under normal conditions:
+  \begin{enumerate}
+  \item It will carry the same current in reverse as the live conductor.
+  \item It's voltage (measured with respect to earth) will be zero.
+  \end{enumerate}
+\item[Earth] is connected to earth and bonded to metal casings.
+\end{description}
+
+
+
+\subsection{Circuit protection}
+
+\begin{description}
+\item[Fuses:] a piece of thin wire encased in a holder that is deliberatly designed to melt if the current exceeds the fuse rating.
+\item[Circuit Breakers (MCB):] electromechanical devices that will trip when the current exceeds the circuit breaker's rating.
+\item[Residual current device (RCD):] protect from electric shock by detecting any leakage of current to earth by comparing live and neutral currents.
+  Trips if these differ by more than a set amount $\Delta I$, normally \SI{30}{\milli\ampere}.
+  Other names: GFI, ELCB.
+\item[Residual Current Breaker Overload (RCBO):] combined MCB and RCD functionality in one device.
+\end{description}
+
+\section{Computer power supplies}
+
+Power Supply Units (PSUs) are used to convert the mains-supplied power into a form suitable for use in computers.
+
+\subsection{Computer power requirements}
+
+Computers require a variety of DC voltages, the most common being:
+\begin{description}
+\item[\SI{3.3}{\volt}] (orange)
+\item[\SI{5}{\volt}] (red)
+\item[\SI{12}{\volt}] (yellow).
+\end{description}
+These are normally supplied relative to a common ground (black).
+\begin{description}
+\item[Negative \SI{-12}{\volt}] (blue) is often available.
+\end{description}
+A PSU also permanently supplies \SI{5}{\volt} (purple) and will turn on when the green terminal is shorted to ground.
+
+\subsection{Power supply tasks}
+
+A computer's power supply unit (PSU) has two key jobs:
+\begin{description}
+\item[Rectify] the mains-supplied AC to a steady DC supply.
+\item[Step down] the voltage (\SI{230}{\volt}) to the required level(s).
+\end{description}
+The precise methods and order that these tasks are performed in will vary, and are outside the scope of our discussion.
+
+\subsection{Capacity}
+
+A power supply will usually have a rated capacity:
+\begin{itemize}
+\item This will either be given in terms of power (watts) or in current (amps).
+\item On a supply providing multiple voltages, there will usually be a limit on each rail as well as possibly an overall limit.
+\end{itemize}
+
+\section{Three-phase supply}
+
+Mains power is generated and distributed in three-phase form, with 3 live conductors and one neutral conductor.
+The sine wave is shifted by 120 degrees, or $\frac{2\pi}{3}$ radians in any phase relative to one of the two other phases.
+
+\autoimage{3_phase_waveform}{3-phase waveform (Wikipedia)}{3-phase-waveform}
+
+Let $v_n(t)$ be the voltage in phase $n$ of a three-phase supply.
+We can use \autoref{eq:ac-instantaneous-voltage} for the first phase.
+Phase~2 must lags phase 1 by 120 degrees.
+Similarly, phase~3 leads phase~1 by 120 degrees.
+\begin{align}
+  v_1(t) & = V_{\mbox{max}} \sin ( 2 \pi f t ) \\
+  v_2(t) & = V_{\mbox{max}} \sin \left ( 2 \pi f t - \frac{2\pi}{3} \right ) \\
+  v_3(t) & = V_{\mbox{max}} \sin \left ( 2 \pi f t + \frac{2\pi}{3} \right )                      
+\end{align}
+
+\subsection{Line and phase voltages}
+
+When dealing with three-phase power, we actually have two voltages to consider:
+\begin{description}
+\item[Phase voltage] is the voltage between \textit{any} phase and neutral.
+\item[Line voltage] is the voltage measured between \textit{any} two phases.
+\end{description}
+
+The line and phase voltages are related mathematically by $\sqrt{3}$:
+\begin{align}
+  V_{\mbox{line}} & = \sqrt{3} \times V_{\mbox{phase}}\\
+\Rightarrow  V_{\mbox{phase}} & = \frac{V_{\mbox{line}}}{\sqrt{3}}                     
+\end{align}
+
+\begin{example}{Line to phase voltage}{line-to-phase-voltage}
+  A three phase power supply has a phase voltage of \SI{220}{\volt}.
+  Calculate the line voltage.
+  \tcblower
+  \begin{align}
+    V_{\mbox{line}} & = \sqrt{3} \times V_{\mbox{phase}} \\
+                     & = \sqrt{3} \times 220  \\
+                     & = \SI{381}{\volt}
+  \end{align}
+\end{example}
+
+\begin{example}{Phase to line voltage}{phase-to-line-voltage}
+  A three phase power supply has a line voltage of \SI{400}{\volt}.
+  Calculate the phase voltage.
+  \tcblower
+  \begin{align}
+    V_{\mbox{phase}} & = \frac{V_{\mbox{line}}}{\sqrt{3}} \\
+                     & = \frac{400}{\sqrt{3}} \\
+                     & = \SI{231}{\volt}
+  \end{align}
+\end{example}
+
+
