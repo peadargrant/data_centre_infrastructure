@@ -1,0 +1,15 @@
+Cable management
+================
+
+Types
+=====
+Power
+Data - fibre, copper
+Ethernet, FC, Serial, [eSATA, SAS]
+
+Easy to understand what goes where.
+
+Labelling
+Colour codes: different signal types, networks etc. 
+
+Cable ties
