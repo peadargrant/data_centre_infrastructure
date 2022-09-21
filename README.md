@@ -4,7 +4,7 @@
 
 To clone (get a copy of) the repository, use the following command in PowerShell or Bash:
 
-	git checkout https://github.com/peadargrant/data_centre_infrastructure
+	git clone https://github.com/peadargrant/data_centre_infrastructure
 
 If you don't have the `git` command-line program you should install it and re-run the command again.
 
