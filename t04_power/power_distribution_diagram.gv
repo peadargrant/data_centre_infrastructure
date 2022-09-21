@@ -1,0 +1,26 @@
+digraph G {
+
+	rankdir=LR;
+
+	subgraph cluster_rack {
+	label="Rack";
+	l1 [ label="Load 1" ];
+	l2 [ label="Load 2" ];
+	l3 [ label="Load 3" ];
+	l4 [ label="Load 4" ];
+	pdu [ label="PDU" ];
+	}
+
+	mains [ label="Mains" ];
+
+	protection [ label="MCB/RCD" ];
+
+	mains -> protection;
+	protection -> pdu;
+	
+	pdu -> l1;
+	pdu -> l2;
+	pdu -> l3;
+	pdu -> l4;
+
+}
