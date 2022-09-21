@@ -4,13 +4,12 @@
 
 \begin{document}
 
-\section{Form factor}
+\maketitle
 
 \section{Equipment layout}
 
 IT equipment is mounted in racks within cabinets.
 Cabinets make up rows and pairs of rows make up aisles.
-
 
 \subsection{Cabinet}
 
@@ -70,7 +69,7 @@ Conventionally we just use the number of units, such as 4U.
 Non-rackmount equipment such as tower-type server PCs should be discouraged in data centre environments.
 Sometimes legacy equipment has to be accomodated.
 
-\section{Good practices}
+\section{Choice of space}
 
 \begin{enumerate}
 
@@ -80,6 +79,36 @@ Sometimes legacy equipment has to be accomodated.
 
 \item Lighting must be adequate so that you can see front and back of the rack safely.
 
+\item Availability of power and cooling (see later)
+  
 \end{enumerate}
+
+\section{Cable management}
+
+\begin{itemize}
+\item Need to consider \textbf{power and data} cabling.
+\item Data cabling may be both \textbf{copper and fibre}.
+\item Different physical layer protocols may appear on same cabling and connectors:
+  \begin{itemize}
+  \item Most CAT5/6 will be ethernet.
+  \item Serial, HDMI video and other protocols may be carried on CAT5/6 also.
+  \end{itemize}
+\item Colour coding should be used to separate different cabling categories (depending on application)
+\item Cables (particularly those connected outside of the rack) should be labelled.
+\item Cables should be tied and routed using cabling routing guides within racks.
+\item Cables must not restrict airflow or physical access.
+\end{itemize}
+
+\section{Suggested racking order}
+
+Heaviest items should be lower (in general). 
+From the bottom up, a suggested order could be:
+\begin{enumerate}
+\item UPS units and batteries (next week)
+\item Storage and SAN arrays
+\item Servers 
+\end{enumerate}
+Networking equipment such as switches are often better placed at the rear of a rack. 
+
 
 \end{document}

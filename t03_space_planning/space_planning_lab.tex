@@ -1,0 +1,57 @@
+\documentclass{pgnotes}
+
+\title{Space planning lab}
+
+\begin{document}
+
+\maketitle
+
+Use the \texttt{rack\_template.xlsx} excel sheet or other tools to help you with the following exercises.
+For each scenario:
+\begin{enumerate}\tightlist
+\item Propose a suitable rack layout given the information available.
+\item Does any equipment potentially not belong in a data centre environment?
+\item How will you address non-rackmount equipment? 
+\item Is there any additional equipment you would recommend? 
+\end{enumerate}
+Scenarios:
+\begin{enumerate}
+\item
+  Quality Market is an independently owned supermarket.
+  Equipment:
+  \begin{itemize}
+    \tightlist
+  \item SonicWall router / firewall 1U
+  \item IBM Netfinity server running 4690OS POS 2U
+  \item Netgear 24-port switch for POS terminal network 1U
+  \item Netgear 24-port switch for EFT terminal network 1U
+  \item Dell server for merchandising system 2U
+  \item Cisco 48-port switch for core network 1U
+  \item 2x APC UPS units 3U each (1 for POS, 1 for other)
+  \item Patch panel for terminating CAT6 runs 4U
+  \end{itemize}
+  
+\item
+  The Waterfront Arts Centre is a multi-use theatre, artist studio, library, museum and gallery space.
+  Equipment:
+  \begin{itemize}
+    \tightlist
+  \item Cisco router / firewall 2U
+  \item Ubiquiti UniFi 24-port POE switch for Wifi 1U
+  \item Core network switch 48-port 1U
+  \item Dell server for box office system 1U
+  \item HP Alpha server for library system 2U
+  \item Backup server for library system 2U
+  \item Custom-built mini-ITX PC for advertising screens 1U
+  \item HDMI matrix for advertising screens 2U
+  \item Raspberry pi for automatic public announcements
+  \item Audio matrix for public address 1U each
+  \item 2 Audio amplifiers for public address 2U each
+  \item APC UPS for rack 3U
+  \item Patch panel for terminating CAT6 runs 3U
+  \end{itemize}
+  
+  
+\end{enumerate}
+
+\end{document}
