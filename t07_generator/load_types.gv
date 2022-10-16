@@ -1,0 +1,23 @@
+digraph G {
+
+non_essential_loads [label="Non-essential loads"];
+essential_loads [label="Essential loads"];
+critical_loads [label="Critical loads"];
+ups [ label="UPS" ];
+utility_power [label="Incoming mains power"];
+essential_distribution [label="Essential loads dist board"];
+non_essential_distribution [label="Non essential loads dist board"];
+generator [label="Generator"];
+transfer_switch [label="Transfer Switch"];
+
+utility_power -> transfer_switch;
+utility_power -> non_essential_distribution;
+non_essential_distribution -> non_essential_loads;
+generator -> transfer_switch;
+transfer_switch -> essential_distribution;
+essential_distribution -> essential_loads;
+essential_distribution -> ups;
+ups -> critical_loads;
+
+
+}

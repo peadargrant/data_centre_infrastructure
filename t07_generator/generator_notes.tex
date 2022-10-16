@@ -1,0 +1,135 @@
+\documentclass{pgnotes}
+
+\title{Generators}
+
+\begin{document}
+
+\maketitle
+
+\section{Load types}
+
+\begin{description}
+\item[Critical] loads cannot lose power, even momentarily.
+\item[Essential] loads can tolerate a brief power interruption, but will need to be operational for continued running of the data centre.
+\item[Non-essential] loads are discretionary and can be done without. 
+\end{description}
+
+The classification of any particular load will depend on the business needs.
+The same load might be classed as critical, essential or non-essential in different contexts.
+
+\section{Standby generators}
+
+A UPS normally protects critical loads for a short period of time.
+For longer power outages, a separate generator is required.
+
+Standby generators are usually supplied as a package unit, containing:
+\begin{description}
+\item[Prime-mover] normally a reciprocating diesel engine.
+\item[Alternator] to convert mechanical energy into electrical energy.
+\item[Controls] including a governor to control engine speed, determining frequency, and an automatic voltage regulator to control the excitation in the generator's windings, determining output voltage.
+\end{description}
+
+\autoimage{generator_schematic}{Diesel generator schematic}{generator-schematic}
+
+\section{Power system including Generator}
+
+The generator normally powers the essential and (via the UPS) the critical loads, \autoref{fig:load-types}.
+
+\autoimage{load_types}{Standby generator arrangement}{load-types}
+
+\section{Transfer sequence}
+
+The transfer is usually managed by an automatic transfer switch.
+This is a ``break-before-make'' switch that disconnects the power from the mains and transfers it to the generator.
+The transfer switch is normally interlocked with the generator's control system so that the generator starts on a loss of power.
+
+\subsection{On loss of mains power}
+
+\begin{enumerate}
+\item Power is lost in the mains (i.e. voltage goes out of range). This causes the automatic transfer switch (ATS) to start a short time delay.  If power returns, the sequence terminates, otherwise the ATS signals the generator to start.
+\item The generator will take some time (1-2 minutes) to:
+  \begin{enumerate}
+  \item Start the prime mover (engine), possibly needing multiple re-trys.
+  \item Engine accelerates to correct speed to produce \SI{50}{\hertz}.
+  \item Excitation and automatic voltage regulation to cause correct voltage to appear \SI{230}{\volt} on the output.
+  \end{enumerate}
+\item ATS will break the connection to the mains and make it instead to the generator.\label{item:ats-switch-to-generator}
+\item Generator maintains frequency at \SI{50}{\hertz} using governor to control engine throttle, and voltage at \SI{230}{\volt} using automatic voltage regulator that controls the excitation current.
+\end{enumerate}
+
+\subsection{On return of mains power}
+
+\begin{enumerate}
+\item ATS senses return of mains power. Initiates a time delay before continuining to ensure mains power is stable.
+\item ATS transfers loads back to mains. Generator continues to run for a predetermined cooldown period.
+  \begin{itemize}
+  \item If mains power is again lost during this period, can switch back to generator almost immediately.
+  \end{itemize}
+\item Generator is stopped once cooldown period has elapsed.
+  Ready for cycle to resume again.
+\end{enumerate}
+
+\section{UPS compatibility}
+
+Generators and UPS systems have a complex relationship.
+Although they synergise well in principle, they can both cause problems for each other in practice.
+
+\begin{description}
+\item[Standby \& line-interactive] UPS will require the generator to maintain a very tight tolerence on voltage and frequency.
+  Frequent transfers to battery possible when $V$ and $f$ deviate due to load switching.
+\item[Double-conversion (AC-DC-AC)] UPS will generally work best, as it is tolerent to incoming frequency/voltage variations. \textit{Double-conversion UPS systems can cause major problems though for undersized generators because their rectifiers can generate harmonics on the power input.}
+\end{description}
+
+In general, the less dominant the UPS (and its downstream load) is as a fraction of the total load, the more successful the UPS-generator pairing will be.
+More generally, a generator will be more successful powering a large number of smaller loads than a smaller number of large loads.
+
+\section{Generator Sizing}
+
+Generators need to be sized taking into account:
+
+\begin{itemize}
+\item The critical load attached to the UPS.
+\item The battery recharging demand of the UPS.
+\item Inherent inefficiencies in the UPS.
+\item The essential loads (such as cooling).
+\item Large starting currents and harmonics when loads (including the UPS rectifier) are connected, particularly when starting up.
+\item Expansion capacity (since a generator is a large capital investment).
+\end{itemize}
+
+This means that substantial buffer / correction factors are often applied to ensure a generator is adequately sized.
+
+\section{Responsibility}
+
+Generators are often not managed by IT personnel, but rather facilities management.
+IT will need to communicate with facilities managament both to maintain a good work relationship and to exchange data, including the setup of automated data feeds.
+
+
+\section{Siting}
+
+Many generators are sited outside, but some are sited inside, depending on business needs and space planning.
+Consideration must be given to:
+\begin{description}
+\item[Ease of interconnection] to power system.
+\item[Noise] generated in use inside and outside building.
+\item[Fuel storage and supply] using inbuilt and/or external tanks, gravity or pumped supply.
+\item[Exhaust system] to ensure safety of building fabric and its occupants.
+\item[Accessibility] for servicing and routine maintenance and testing.
+\item[Cooling] of the generator itself during operation.  If inside, ventilation/cooling will be needed.
+\item[Security] since sabotage could ``take out'' a data centre!
+\end{description}
+
+\section{Routine maintenance}
+
+\begin{description}
+\item[Starting battery] needs to be kept charged and checked on schedule.
+\item[Engine-block heating] (usually electric) should be considered in cold climates.
+\item[Generator must be tested] regularly, preferably on load.
+\end{description}
+
+\end{document}
+
+
+
+
+
+
