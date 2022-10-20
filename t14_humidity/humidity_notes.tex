@@ -1,0 +1,145 @@
+\documentclass{pgnotes}
+
+\title{Humidity}
+
+\begin{document}
+
+\maketitle
+
+\section{Humidity}
+
+Humidity is a measure of the amount of water vapour contained in the air.
+
+We can specify the humidity in a number of ways.
+Humidity is linked to temperature, which makes understanding its measurement a bit harder.
+
+\subsection{Relative humidity}
+
+\href{https://en.wikipedia.org/wiki/Relative_humidity}{Relative humidity} quantifies the amount of water vapour in the air as a percentage \SIrange{0}{100}{\percent} of the maximum amount of water vapour the air can hold at a given temperature.
+
+\subsection{Dew point}
+
+The \href{https://en.wikipedia.org/wiki/Dew_point}{dew point} is the temperature at which water vapour liquifies.
+
+When air is at \SI{100}{\percent} relative humidity, the dew point is equal to its temperature.
+It is said to be saturated. 
+
+\subsection{Calculation}
+
+Magnus formula: 
+\begin{align}
+  y (T, RH) & = \ln \left ( \frac{RH}{100} \right ) + \frac{bT}{c+T} \\
+  T_{\mbox{dp}} & = \frac{c \cdot y (T, RH)}{b - y(T, RH)}
+\end{align}
+where $b = 18.678$ and $c=257.14$ C. 
+
+Simplified approximation:
+\begin{align}
+  T_{\mbox{dp}} & \approx T - \frac{100-\mbox{RH}}{5} \\
+  \Rightarrow \mbox{RH} & = 100 - 5 ( T - T_{\mbox{dp}} ) 
+\end{align}
+
+
+\section{Humidity envelope}
+
+\subsection{Environmental classes}
+
+The ASHRAE environmental classes require humidity to be controlled.
+
+\autoimage{ashrae_environmental_classes}{ASHRAE environmental classes}{ashrae-environmental-classes}
+
+
+\subsection{Humidity control}
+
+Precision air conditioning systems manage humidity along with temperature.
+
+For the purposes of humidity control we will assume a DX CRAC and Chilled-Water CRAH to be identical.
+
+\section{Dehumidification}
+\label{sec:dehumidification}
+
+\subsection{Dehumidification during cooling}
+\label{sec:dehumidification-during-cooling}
+
+Dehumidification will occur naturally as a byproduct of cooling.
+When air is cooled below its dew point as it passes through the evaporator, some of the moisture will condense.
+The condensate drains or is pumped away to waste.
+
+The degree of dehumidification can be controlled somewhat by varying the evaporator fan speed and the temperature of the evaporator coil:
+\begin{itemize}
+\item
+  The longer the air spends in contact with the coil, the more dehumidification will occur.
+  Dehumidification performance should be better at lower fan speeds (with all other variables being equal.)
+\item
+  The colder the evaporator coil, the more dehumificiation will occur.
+  Some systems with an electronically controlled expansion valve can vary this to modulate the dehumidification performance.
+\end{itemize}
+
+\subsection{Dehumidification with reheat}
+\label{sec:dehumidification-with-reheat}
+
+Sometimes we will have a demand for dehumidification when cooling is not also required.
+We can often tolerate a small degree of overcooling.
+Other times we will need to re-heat the air:
+\begin{itemize}
+\item Electric re-heat where electric heaters warm the air after it passes over the evaporator.
+  These are sometimes modulated using a device called a Silicon Controlled Rectifier to give precision control of the air temperature.
+\item Hot water or steam re-heat where an additional reheat coil is situated downstream of the evaporator.
+  Controlled by a motorised valve that can modulate the hot water/steam flow on/off to maintain the air temperature.
+  Requires source of hot water such as a central boiler, often shared with other services like space or water heating. 
+\item Hot gas reheat where the refrigeration system itself releases heat back into the airstream downstream of the evaporator.
+  Requires less energy than the electric or hot water re-heat options.
+\end{itemize}
+
+\subsection{Independent dehumidifier}
+\label{sec:independent-dehumidifier}
+
+Independent dehumifiers are like a CRAC except that both the evaporator and condenser coil are in the indoor airstream.
+They are used in situations where dehumidification is required without cooling, and are not normally seen in data centre environments. 
+
+The evaporator cools air below its dew point and the condenser coil re-heats it. 
+
+\section{Humidification}
+\label{sec:humidification}
+
+Humidification involves adding moisture to the air, increasing its relative humidity.
+Humidifiers can be separate independent devices but are commonly incorporated with a CRAC.
+
+\subsection{Infrared humidifier}
+\label{sec:infrared-humidifier}
+
+The infrared humidifier uses quartz lamps to boil water in a pan, \autoref{fig:crac-infrared-humidifier-photo}.
+
+\autoimage{crac_infrared_humidifier_photo}{Photo of CRAC with infrared humidifier}{crac-infrared-humidifier-photo}
+
+Unwanted heat will be introduced to the controlled space by an infrared humidifier.
+This is limited if only a small amount of humidification is required (to offset dehumidification caused by cooling).
+
+\subsection{Steam canister humidifier}
+\label{sec:steam-canister-humidifier}
+
+Steam canister humifiers use electrodes to pass a current through water, heating it in the process, \autoref{fig:steam-canister-humidifier-schematic}.
+The steam boiled off is released into the air.
+
+\autoimage{steam_canister_humidifier_schematic}{Schematic diagram of steam canister humidifier}{steam-canister-humidifier-schematic}
+
+Similar to the infrared humidifier, the steam humidifier will introduce unwanted heat into the controlled space.
+This can be kept relatively low if the humidifier's duty cycle is low. 
+
+\subsection{Ultrasonic humidifier}
+\label{sec:ultrasonic-humidifier}
+
+Ultrasonic humidifiers atomise water into tiny droplets, releasing it into the air.
+
+Ultrasonic humidifiers are much cheaper to run than infrared and steam humidifiers and do not introduce unwanted heat into the controlled space.
+They are available as retrofit kits for many CRACs, with a similar form factor to infrared units, \autoref{fig:ultrasonic-humidifier-photo}.
+
+\autoimage{ultrasonic_humidifier_photo}{Photo of an ultrasonic humidifier designed for retrofit applications}{ultrasonic-humidifier-photo}
+
+Ultrasonic humidifiers need a very clean water supply which adds to their overall cost, but is economic in multiple unit installations. 
+
+\end{document}
+
+
+
+
