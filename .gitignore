@@ -8,3 +8,5 @@ auto/
 *.out
 *.pdf
 *.toc
+.Rhistory
+practice/*.tex

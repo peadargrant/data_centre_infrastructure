@@ -1,0 +1,502 @@
+\documentclass{dkitspr}
+
+<<echo=FALSE>>=
+options(scipen=999)    
+@ 
+
+\input{macros}
+\session{Practice}
+
+\begin{document}
+
+\maketitle
+
+A selection of practice questions are provided in this document to help you prepare for the final examination.
+Please note that the ordering of the questions below is entirely random.
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@ 
+\begin{question}{25}
+   
+\begin{qpart}{5}
+<<echo=FALSE>>=
+@ 
+Draw a diagram to show the power distribution path in a Tier-1 data centre environment serving critical, essential and discretionary loads.
+  \begin{solution}
+<<echo=TRUE>>=
+@ 
+For full marks, answer should show:
+\begin{enumerate}
+\item Utility power input
+\item discretionary loads taken straight from utility power
+\item generator and automatic transfer switch
+\item essential loads (cooling) after ATS
+\item UPS following ATS
+\item critical loads served by UPS
+\end{enumerate}
+  \end{solution}
+\end{qpart}
+
+\begin{qpart}{10}
+<<echo=FALSE>>=
+n.servers <- sample(2:4,1)
+p.servers <- sample(2:5,1)*100 
+p.sundry <- sample(3:5,1)*100
+p.blade <- sample(15:25,1)*100
+pf.blade <- sample(90:97,1)*0.01
+@ 
+A server room includes the following equipment rated for \SI{230}{\volt} \SI{50}{\hertz} supply:
+\begin{itemize}
+\item \Sexpr{n.servers} x PC-based servers at \SI{\Sexpr{p.servers}}{\watt}
+\item Blade-server chassis requiring \Sexpr{p.blade} with power factor \Sexpr{pf.blade}
+\item Allow \SI{\Sexpr{p.sundry}}{\watt} for other devices
+\end{itemize}
+Calculate the required UPS size in VA.
+State the principal relevant assumptions that you make.
+  \begin{solution}
+<<echo=TRUE>>=
+# assume server PF since not given
+    pf.server <- 0.8
+pf.sundry <- 0.8
+tot.ap.server <- n.servers * p.servers / pf.server
+tot.ap.blade <- p.blade / pf.blade 
+tot.ap.sundry <- p.sundry / pf.server
+tot.ap <- tot.ap.server + tot.ap.blade + tot.ap.sundry
+# standard pad factor
+pad.factor <- 1.2
+# OK to 2 significant figures in answer
+tot.ap <- round(tot.ap * pad.factor, digits=0)
+(tot.ap)
+@ 
+The connected equipment requires \SI{\Sexpr{tot.ap}}{\volt\ampere}.
+  \end{solution}
+\end{qpart}
+
+\begin{qpart}{10}
+  Identify  the three main types of UPS that could applied in the situation of part~(b).
+  For each, show the principle on which each operates in diagrammatic form, and state the non-idealities in the mains supply that each can protect against.
+  \begin{solution}
+    \begin{description}
+    \item[Standby] UPS outputs either the inverted battery supply or the incoming mains supply.
+      \begin{itemize}
+      \item Basic surge protection is normally inclued.
+      \end{itemize}
+    \item[Line interactive] UPS has additional power filtering compared to the standby model.
+      \begin{itemize}
+      \item All of the above, plus: 
+      \item Can correct for under/over-voltage supply within a certain range.
+      \item May utilise a tap-changing transformer or an inverter (with/without a centre-tap transformer).
+      \end{itemize}
+    \item[Double-conversion] UPS rectifies AC to DC and inverts DC to AC.
+      \begin{itemize}
+      \item All of the above, plus:
+      \item No ``transition time'' since the UPS is always online, just draws from battery if mains fails.
+      \item Can correct for distortion/harmonics in the supply waveform, frequency variations.
+      \end{itemize}
+    \end{description}
+  \end{solution}
+\end{qpart}
+
+\end{question}
+
+
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@ 
+\begin{question}{25}
+<<echo=FALSE>>=
+target.cop <- sample(16:38,1) / 10
+crac.input <- sample(10:60,1)
+crac.cooling <- crac.input * target.cop 
+@
+  \begin{qpart}{5}
+    A unitary CRAC consumes \SI{\Sexpr{crac.input}}{\kilo\watt} of electrical power to provide  \SI{\Sexpr{crac.cooling}}{\kilo\watt} of cooling.  Determine the coefficient of performance.
+    \begin{solution}
+<<echo=TRUE>>=
+calculated.cop <- crac.cooling / crac.input
+(calculated.cop)
+@ 
+The COP is \Sexpr{calculated.cop}.
+    \end{solution}
+  \end{qpart}
+<<echo=FALSE>>=
+cooling.demand <- sample(25:60,1)
+n.cabinets <- sample(3:8,1)
+@ 
+  \begin{qpart}{10}
+    A data centre environment consists of 2 rows of \Sexpr{n.cabinets} cabinets with standard airflow located within a basement area with no exterior walls.
+    The calculated total cooling demand is \SI{\Sexpr{cooling.demand}}{\kilo\watt}.
+    Propose a suitable mechanical cooling system in diagram form that provides $N+1$ redundancy of capacity components.
+    \begin{solution}
+      Diagram should show:
+      \begin{itemize}
+      \item Glycol 
+      \item Should be at least 2 CRAC units: 2x \SI{\Sexpr{cooling.demand}}{\kilo\watt} or 3x \SI{\Sexpr{cooling.demand/3*2}}{\kilo\watt}.
+      \item Dry coolers x2 outside with sufficient capacity for all installed units.
+      \item Single distribution pipework.
+      \item Pump package with two pumps and non-return valves.
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+<<echo=FALSE>>=
+country <- sample(c("Finland", "Sweden", "Russia"),1)
+annual.min <- -8
+annual.max <- 15
+@ 
+\begin{qpart}{10}
+The data centre environment in part (b) is located in northern \Sexpr{country} with annual temperature averages ranging from \Sexpr{annual.min}C to \Sexpr{annual.max}C.
+Propose two suitable energy efficiency measures based on the cooling solution you have chosen.
+\begin{solution}
+  \begin{itemize}
+  \item Regardless of cooling system, hot aisle/cold aisle containment should be used.    
+  \item Glycol cooler should use free economy coil. (needs to be interlocked with dry cooler and other units on same pipework)
+  \item Air-cooled DX CRAC should use airside economizer or separate fresh-air economizer and relief vents.
+  \item ASHRAE-recommend temperature setpoints should use widest envelope possible (if allowed by IT equipment specification) to maximise use of free cooling and optimise compressor COP.
+  \end{itemize}
+\end{solution}
+\end{qpart}
+\end{question}
+
+
+
+
+  
+
+<<echo=FALSE>>=
+rm(list=ls())
+@
+\begin{question}{25}
+   
+  \begin{qpart}{5}
+    Outline the key risk factors that increase the risk of fire inside the data centre environment relative to its surrounding office environment.
+    \begin{solution}
+      Answer should cite some/all of the following: 
+      Large amounts of electrical wiring, large amounts of heat generation, mechanical equipment, unoccupied space, potential for unauthorised storage.
+    \end{solution}
+  \end{qpart}
+
+<<echo=FALSE>>=
+building.type <- sample(c("office"),1)
+n.islands <- sample(2:4,1)
+n.rows <- n.islands * 2
+n.cabs.per.row <- 4
+n.cabs <- n.rows * n.cabs.per.row
+@ 
+  \begin{qpart}{10}
+    A data centre has a raised floor.
+    The IT equipment consists of \Sexpr{n.rows} rows with \Sexpr{n.cabs.per.row} cabinets per row arranged into \Sexpr{n.islands} islands with hot aisle containment.
+    Outline the general requirements for detection and suppresion of fire in this space.
+    \begin{solution}
+      Answer should cite some/all of the following:
+      \begin{itemize}
+      \item Need VESDA / aspirating smoke detection system (may have low/high level trips)
+      \item Need gas suppression system (requires tank storage space).
+      \item UPS and HVAC needs to be interlocked to power off if data centre fire alarm trips.
+      \item Need to interlock data centre system to main building fire alarm. (No EPO on main fire alarm.)
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+  
+  \begin{qpart}{10}
+<<echo=FALSE>>=
+storage.type <- sample(c("hard disks with confidential information", "confidential documents"),1)
+@ 
+    The data centre in part (b) has been the subject of a space audit.
+    Management have suggested using some of the free space in the data centre for shelving \Sexpr{storage.type}, citing the area's security and climate-controlled environment.
+    Outline the grounds on which you would reject this request.
+    \begin{solution}
+      Answer should reference the fire triangle, and show how this accentuates the risk factors from part~(a). 
+    \end{solution}
+  \end{qpart}
+  
+\end{question}
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@ 
+\begin{question}{25}
+  
+  \begin{qpart}{5}
+    Describe what is meant by ``lights out'' management as it pertains to data centres.
+    \begin{solution}
+      Answer should state overall that: routine tasks are done without physical access needed to the data centre environment.
+    \end{solution}
+  \end{qpart}
+  \begin{qpart}{10}
+    Distinguish between in-band and out-of-band management solutions for Windows and Linux operating environments.
+    \begin{solution}
+      Answer should describe in-band SSH, RDP vs hardware management cards. 
+      Hardware management independent of OS, virtual media, remote video etc.
+    \end{solution}    
+  \end{qpart}
+  \begin{qpart}{10}
+    Outline possible security risks associated with out-of-band management and how these could be mitigated.
+    \begin{solution}
+    \end{solution}    
+  \end{qpart}
+\end{question}
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@
+\begin{question}{25}
+   
+\begin{qpart}{5}
+<<echo=FALSE>>=
+    V <- sample(22:24,1)*10
+f <- 50
+P <- sample(10:90,1)*10
+power.factor <- sample(7:9,1)*0.1
+@ 
+A piece of IT equipment is rated as consuming \SI{\Sexpr{P}}{\watt} from a \SI{\Sexpr{V}}{\volt} \SI{\Sexpr{f}}{\hertz} power supply.
+Calculate its apparent power in \si{\volt\ampere} if the power factor is \Sexpr{power.factor}.
+  \begin{solution}
+<<echo=TRUE>>=
+    apparent.power <- round(P / power.factor, 0)
+(apparent.power)
+@ 
+Answer = \SI{\Sexpr{apparent.power}}{\volt\ampere}
+  \end{solution}
+\end{qpart}
+
+\begin{qpart}{10}
+<<echo=FALSE>>=
+P.load <- sample(8:30,1)
+@ 
+A small data centre environment has a total power load of \SI{\Sexpr{P.load}}{\kilo\volt\ampere}, supplied by an an online double conversion UPS.
+The data centre has a DX cooling system,
+No future loads are anticipated and lighting can be assumed to be negligible.
+Suggest the required generator size, justifying your answer.
+\begin{solution}
+<<echo=TRUE>>=
+    P.critical <- 0
+P.critical <- P.critical + P.load
+# account for peak power draw
+P.critical <- P.critical + P.load * 1.05
+# account for UPS ineffiency & charge
+P.critical <- P.critical + P.load * 0.32
+# lighting not included
+# cooling - DX has a factor of 1.0
+P.cooling <- P.critical * 1.0
+# generator sizing
+P.gen <- P.critical * 1.3 + P.cooling * 1.5
+(P.gen)
+@ 
+So our generator must be at least \SI{\Sexpr{P.gen}}{\kilo\watt}.
+  \end{solution}
+\end{qpart}
+
+\begin{qpart}{10}
+  Outline the sequence of steps that occurs when mains power fails and is subsequently restored in the situation described in part~(b).
+  \begin{solution}
+    Answer should outline on mains failure:
+    \begin{enumerate}
+    \item Mains failure detected.  UPS inverter continues to power load from UPS battery, depleting it.
+    \item Time delay starts, sequence cancelled if power returns during delay period.
+    \item Generator started, accelerates to full speed, develops voltage at output terminals.
+    \item ATS transfers from utility to generator.
+    \item UPS begins to recharge battery from generator via rectifier, while continuing to invert for load.       
+    \end{enumerate}
+    On return of mains power:
+    \begin{enumerate}
+    \item Time delay starts, sequence cancelled if power fails again during delay period.
+    \item ATS transfers load from generator to utility. Generator continues to run.
+    \item Time delay starts for cooldown period, also allowing generator to take over again if mains again fails.
+    \item Generator stopped, ready to begin again.
+    \end{enumerate}
+  \end{solution}
+\end{qpart}
+
+\end{question}
+
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@ 
+\begin{question}{25}
+
+\begin{qpart}{5}
+<<echo=FALSE>>=
+racks <- sample(2:6,1)
+rack.width <- 0.6
+room.width <- racks * rack.width + 1.0
+rack.depth <- 1.2
+room.depth <- 2.0 + rack.depth
+ceiling.height <- sample(25:30,1)/10
+@ 
+A small server room contains \Sexpr{racks}~racks in a single row, each \SI{\Sexpr{rack.width}}{\metre} wide and \SI{\Sexpr{rack.depth}}{\metre} deep.
+The room measures \SI{\Sexpr{room.width}}{\metre} long and is \SI{\Sexpr{room.depth}}{\metre} deep with a ceiling height of \SI{\Sexpr{ceiling.height}}{\metre}.
+It has a solid floor, with a \SI{1}{\metre} wide door is at one side along the longest side.
+Sketch a suitable plan arrangement for the server room, showing the racks and indicating the front/rear of each.
+\begin{solution}
+Racks should face the same way in a single row.  Rear of racks must NOT be against any wall.  They should be in the centre of the room and offset away from the door.
+\end{solution}
+\end{qpart}
+
+
+\begin{qpart}{10}
+<<echo=FALSE>>=
+rack.occupancy = sample(8:10,1)*10
+P.rack.current = sample(8:16,1)
+@ 
+The average IT load power per rack is \SI{\Sexpr{P.rack.current}}{\kilo\watt}, with occupancy of \SI{\Sexpr{rack.occupancy}}{\percent} per rack.
+Suggest the number of CRAC units required to achieve $N+1$ redundancy, and calculate the cooling capacity required of each unit.
+  \begin{solution}
+    Assume that we could hit 100\% occupancy with same power density. 
+    Add in factor for UPS, ignore lighting and personnel.
+<<echo=TRUE>>=
+P.rack.design <- round(P.rack.current * 100 / rack.occupancy,0)
+(P.rack.design)
+P.IT.load <- P.rack.design * racks
+(P.IT.load)
+P.design <- P.IT.load * 1.2
+(P.design)
+N <- 2 # student may choose a sensible N=1 or 2 with justification.
+units.required <- N+1
+(units.required)
+unit.capacity <- P.design / N
+(unit.capacity)
+@ 
+So our design cooling load is \SI{\Sexpr{P.design}}{\kilo\watt}, with \Sexpr{units.required} units in $N+1$ configuration this requires \SI{\Sexpr{unit.capacity}}{\kilo\watt} per unit.
+  \end{solution}
+\end{qpart}
+
+
+\begin{qpart}{10}
+<<echo=FALSE>>=
+piping.distance <- sample(3:30,1)
+@ 
+The data centre is located at a distance of \SI{\Sexpr{piping.distance}}{\metre} from the outdoor plant area. 
+The building has a chilled-water comfort cooling system from which condenser water and chilled water are available May to October.
+Suggest an appropriate heat rejection method for the $N+1$ CRACs, ensuring that $N+1$ component availability is maintained.
+Draw a schematic showing the CRACs and heat rejection arrangement.
+\begin{solution}
+  \begin{itemize}
+  \item Given seasonal nature of building comfort cooling system, would not use.
+  \item DX Air Cooled needs 1 condenser per CRAC, maintains $N+1$ in component + distribution.
+  \item DX Glycol Cooled needs 2 dry coolers + 2 pumps minimum to maintain $N+1$ component availability. Distribution is not $N+1$.
+  \item Same for DX Water Cooled with cooling tower.
+  \item Could use main cooling tower water IF cooling tower runs year round (not specified.)
+  \end{itemize}
+  Schematic should show $N+1$ CRAC units and their rejection devices with appropriate redundancy clear.
+\end{solution}
+\end{qpart}
+
+\end{question}
+
+
+  
+
+<<echo=FALSE>>=
+rm(list=ls())
+@
+\begin{question}{25}
+  
+<<echo=FALSE>>=
+building.type <- sample(c("office"),1)
+n.islands <- sample(2:4,1)
+n.rows <- n.islands * 2
+n.cabs.per.row <- 4
+n.cabs <- n.rows * n.cabs.per.row
+@ 
+  
+  \begin{qpart}{5}
+    Outline the three necessary elements for fire to start and be sustained.
+    \begin{solution}
+      Answer should cite some/all of the following: 
+      \begin{itemize}
+      \item Fuel
+      \item Heat
+      \item Oxygen
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+  
+  \begin{qpart}{10}
+    An existing space in an \Sexpr{building.type} building is to be converted into a secure onsite data centre with hot aisle containment. 
+    To save cost, management have asked that the existing wet pipe sprinkler system be retained as the data centre's fire suppression system.
+    Outline your response to this suggestion.
+    \begin{solution}
+      Answer should reference the following:
+      \begin{itemize}
+      \item Existing systems are not effective when containment added without additional heads.
+      \item Sprinkler systems cause damage to equipment other than that on fire if they discharge in the area.
+      \item Management should consider a gaseous chemical or inert gas suppression system instead.        
+      \item At the very least, if the sprinkler system is retained, it will need to be converted to dry-pipe with preaction. 
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+  
+  \begin{qpart}{10}
+    The data centre in part~(b) has a solid floor.
+    The IT equipment consists of \Sexpr{n.rows} rows with \Sexpr{n.cabs.per.row} cabinets per row arranged into \Sexpr{n.islands} islands with hot aisle containment.
+    Outline the key requirements for fire detection in this space, and recommend an appropriate system.
+    \begin{solution}
+    \end{solution}
+  \end{qpart}
+  
+\end{question}
+
+
+<<echo=FALSE>>=
+rm(list=ls())
+@
+\begin{question}{25}
+  
+  \begin{qpart}{5}
+    Briefly describe what is meant by a ``lights out'' datacentre environment.
+    \begin{solution}
+      Visits by personnel not required during normal operations.
+    \end{solution}
+  \end{qpart}
+
+<<echo=FALSE>>=
+business.sector <- sample(c("healthcare", "education"),1)
+distance <- sample(20:60,1)*10
+@ 
+  \begin{qpart}{10}
+    A regional \Sexpr{business.sector} provider plans to add a small satellite facility located \SI{\Sexpr{distance}}{\kilo\metre} from its main campus.
+    No IT support personnel will normally be present at this site.
+    Discuss the key requirements for individual servers and other IT-related equipment to enable a data centre to be operated ``lights out'' from its main site.
+    \begin{solution}
+      Student answer should mention:
+      \begin{itemize}
+      \item Server OS to be remotely managed using standard tools: ansible, CFEngine, Puppet, Chef for Linux, AD for Windows.
+      \item Linux / non-windows hosts: should consider turning on serial console, making it the boot/master console and having an IP-Serial Console Server.
+      \item Server OS and/or LOM card should implement SNMP for basic management data. 
+      \item Inbuilt ``lights-out management'' card to enable remote power on/off, hard reset, access to BIOS settings. 
+      \item Inbuilt remote KVM and ISO image as CD-R/DVD-R over IP (ideally), or IP KVM in rack.
+      \item Monitoring of internal temperatures, fan speed and component faults.
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+  
+  \begin{qpart}{10}
+    A small server room is needed for the onsite equipment needed for the site in part~(b).
+    Discuss the key requirements to enable the supporting data centre infrastructure to be remotely managed from the main site \SI{\Sexpr{distance}}{\kilo\metre} away.
+    \begin{solution}
+      Student answer should mention that all of the following can be remotely controlled:
+      \begin{itemize}
+      \item UPS to have switchable outlets and/or smart PDUs to enable remote on/off.        
+      \item Cooling equipment including CRAC/CRAH units and heat rejection devices (dry coolers, condensers, chillers). Must be able to control on/off of individual redundant units, adjust temperature setpoints, free-cooling modes.
+      \item Monitoring of fire detection and suppression equipment. (Caution against allow easy remote resetting.)
+      \item Remote admittance to data centre for contractors (must have failsafe egress).
+      \item Data centre lighting
+      \item CCTV (to provide operational visual verification as well as security)
+      \end{itemize}
+    \end{solution}
+  \end{qpart}
+  
+  
+\end{question}
+  
+  
+\end{document}
+
