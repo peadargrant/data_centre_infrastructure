@@ -1,0 +1,24 @@
+digraph G {
+
+	Reduction -> IT;
+	Reduction -> Non_IT;
+
+	IT -> Hardware;
+	IT -> Consolidation;
+	IT -> Migration;
+
+	Consolidation -> Sharing;
+	Consolidation -> Virtualisation;
+	Consolidation -> Containers;
+
+	Non_IT -> Power;
+	Non_IT -> Cooling;
+
+	Power -> Equipment;
+	Cooling -> Equipment;
+
+	Cooling -> Settings;
+	Cooling -> Containment;	
+	Cooling -> Economisation;
+
+}
