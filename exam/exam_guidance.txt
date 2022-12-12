@@ -1,0 +1,40 @@
+Data Centre Infrastructure
+Exam guidance
+
+Any item may be examined in any question in main / repeat exam. 
+
+Answer all questions. 
+
+Specific interest areas for study: 
+
+1.
+	(a)	Critical, essential and discretionary loads? 
+	(b) UPS Sizing [PF=0.8] 
+	(c) UPS types [Standby, Line interactive, Double conversion]
+	
+2.
+	(a)	COP 
+	(b) N+1 cooling 
+	(c) Efficiency improvements
+	
+3.
+	(a) Data-centre-specific fire risk factors
+	(b) Detection: Smoke + Heat Area, Air Sampling System 
+	(c) Rejecting fire-risk-raising usages
+	
+4.
+	(a) Lights-out-management concept
+	(b)	In-band / out-of-band options for Windows & Linux
+	(c) Risks associated with Lights-out-management
+	
+Equations:
+- No need to learn complex magnus formula.
+- Assume you know:
+	(1)	P=VI
+	(2)	V=RI
+	(3) Power Factor
+	(4)	COP calculation
+	(5) COP / EER conversion [best to learn this, not EER itself]
+
+Also know expected ranges for COP, EER, PF etc. 
+
